@@ -1,0 +1,16 @@
+# Standard Configuration YAML
+command-name: "iperf3"
+description: "Traffic generator for testing network bandwidth."
+keep-alive: false
+flags:
+  - name: "server"
+    description: "Run iperf3 as a server"
+    type: "string"
+    required: true
+    prefix: "-s"
+  - name: "port"
+    description: "Run on a specific port"
+    type: "string"
+    required: false
+    prefix: "-p"
+
