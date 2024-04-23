@@ -1,16 +1,34 @@
-# Standard Configuration YAML
-command-name: "iperf3"
-description: "Traffic generator for testing network bandwidth."
+command-name: "curl"
+description: "Transfers data from or to a server, using one of the supported protocols (HTTP, HTTPS, FTP, FTPS, GOPHER, DICT, TELNET, LDAP or FILE)."
 keep-alive: false
+flags-order:
+  - "output-file"
+  - "silent"
+  - "write-format"
+  - "url"
 flags:
-  - name: "server"
-    description: "Run iperf3 as a server"
+  ## The "output-file" option specifies the file to which the output will be written.
+  output-file:
+    description: "Write output to the specified file instead of stdout"
     type: "string"
     required: true
-    prefix: "-s"
-  - name: "port"
-    description: "Run on a specific port"
-    type: "string"
+    prefix: "-o"
+  # The "silent" option enables silent mode, suppressing progress meter or error messages.
+  silent:
+    description: "Silent mode. Don't show progress meter or error messages."
+    type: "boolean"
     required: false
-    prefix: "-p"
-
+    prefix: "-s"
+    is-empty: true
+  # The "write-format" option specifies the format for writing the output.
+  write-format:
+    description: "Write the output using the specified format. You can specify any valid format string."
+    type: "string"
+    required: true
+    prefix: "-w"
+    default: "%{json}"
+  # The "url" option specifies the URL to fetch.
+  url:
+    description: "The URL to fetch."
+    type: "string"
+    required: true
