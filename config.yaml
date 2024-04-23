@@ -26,7 +26,7 @@ flags:
     type: "string"
     required: true
     prefix: "-w"
-    default: "%{json}"
+    default: "'%{json}'"
   # The "url" option specifies the URL to fetch.
   url:
     description: "The URL to fetch."
