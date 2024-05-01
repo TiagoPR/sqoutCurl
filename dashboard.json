@@ -1,0 +1,781 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 14,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ddkezs5evxhxca"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "right",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": ""
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://backend:8080/probes/SofaScore?includeResults=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ddkezs5evxhxca"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "refId": "B",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/grafana/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "curl - Download Speed",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "timestamp"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "result"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "result": 1,
+              "timestamp": 0
+            },
+            "renameByName": {
+              "timestamp": "Time"
+            }
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "result"
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "0"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Size Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Speed Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Appconnect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Connect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Namelookup"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Pretransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Redirect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Starttransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Total"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "200"
+                  }
+                },
+                "fieldName": "A HTTP Code"
+              },
+              {
+                "config": {
+                  "id": "greater",
+                  "options": {
+                    "value": 60000
+                  }
+                },
+                "fieldName": "A Speed Download"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "A Speed Download"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ddkezs5evxhxca"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 25,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "normal"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "hidden",
+          "placement": "right",
+          "showLegend": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": ""
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://backend:8080/probes/SofaScore?includeResults=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ddkezs5evxhxca"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "refId": "B",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/grafana/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "curl - namelookup & totalTime",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "timestamp"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "result"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "result": 1,
+              "timestamp": 0
+            },
+            "renameByName": {
+              "timestamp": "Time"
+            }
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "result"
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "0"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Size Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Speed Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Appconnect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Connect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Namelookup"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Pretransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Redirect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Starttransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Total"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "200"
+                  }
+                },
+                "fieldName": "A HTTP Code"
+              },
+              {
+                "config": {
+                  "id": "greater",
+                  "options": {
+                    "value": 60000
+                  }
+                },
+                "fieldName": "A Speed Download"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "A Time Namelookup",
+                "A Time Total"
+              ]
+            }
+          }
+        }
+      ],
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "yesoreyeram-infinity-datasource",
+        "uid": "ddkezs5evxhxca"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [],
+          "thresholds": {
+            "mode": "percentage",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": ""
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "refId": "A",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "http://backend:8080/probes/SofaScore?includeResults=true",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        },
+        {
+          "columns": [],
+          "datasource": {
+            "type": "yesoreyeram-infinity-datasource",
+            "uid": "ddkezs5evxhxca"
+          },
+          "filters": [],
+          "format": "table",
+          "global_query_id": "",
+          "hide": false,
+          "refId": "B",
+          "root_selector": "",
+          "source": "url",
+          "type": "json",
+          "url": "https://github.com/grafana/grafana-infinity-datasource/blob/main/testdata/users.json",
+          "url_options": {
+            "data": "",
+            "method": "GET"
+          }
+        }
+      ],
+      "title": "curl - speedDownload - Gauge",
+      "transformations": [
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "time",
+                "targetField": "timestamp"
+              },
+              {
+                "destinationType": "other",
+                "targetField": "result"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {},
+            "includeByName": {},
+            "indexByName": {
+              "result": 1,
+              "timestamp": 0
+            },
+            "renameByName": {
+              "timestamp": "Time"
+            }
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "result"
+          }
+        },
+        {
+          "id": "extractFields",
+          "options": {
+            "keepTime": true,
+            "replace": true,
+            "source": "0"
+          }
+        },
+        {
+          "id": "convertFieldType",
+          "options": {
+            "conversions": [
+              {
+                "destinationType": "number",
+                "targetField": "Size Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Speed Download"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Appconnect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Connect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Namelookup"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Pretransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Redirect"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Starttransfer"
+              },
+              {
+                "destinationType": "number",
+                "targetField": "Time Total"
+              }
+            ],
+            "fields": {}
+          }
+        },
+        {
+          "id": "filterByValue",
+          "options": {
+            "filters": [
+              {
+                "config": {
+                  "id": "equal",
+                  "options": {
+                    "value": "200"
+                  }
+                },
+                "fieldName": "A HTTP Code"
+              },
+              {
+                "config": {
+                  "id": "greater",
+                  "options": {
+                    "value": 60000
+                  }
+                },
+                "fieldName": "A Speed Download"
+              }
+            ],
+            "match": "all",
+            "type": "include"
+          }
+        },
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "Time",
+                "A Speed Download"
+              ]
+            }
+          }
+        },
+        {
+          "id": "reduce",
+          "options": {
+            "includeTimeField": false,
+            "mode": "reduceFields",
+            "reducers": [
+              "mean",
+              "stdDev"
+            ]
+          }
+        }
+      ],
+      "type": "gauge"
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "2024-04-28T19:27:45.000Z",
+    "to": "2024-04-28T22:14:20.000Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "sofascore",
+  "uid": "adkfbujrilipsc",
+  "version": 6,
+  "weekStart": ""
+}
